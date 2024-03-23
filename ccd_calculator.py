@@ -132,7 +132,7 @@ else:
         st.markdown(f"<span style='font-size: 0.8em;'>Price per Share for YOU (basis valuation Cap): ₹{PRICE_PER_SHARE_AT_CAP}</span>", unsafe_allow_html=True)
 
         num_shares_allocated = int(investment_amount / PRICE_PER_SHARE_AT_CAP)
-        st.markdown(f"<span style='font-size: 0.8em;'>Num of shares allocated to you: {num_shares_allocated}</span>", unsafe_allow_html=True)
+        st.markdown(f"<span style='font-size: 0.8em;'>Num of shares allocated to you (apprx): {num_shares_allocated}</span>", unsafe_allow_html=True)
 
 
     with col_2_3:
