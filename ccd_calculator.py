@@ -1,36 +1,31 @@
 import streamlit as st
 import plotly.graph_objects as go
 
-# Initialize session state for authenticationsss
 if 'authenticated' not in st.session_state:
     st.session_state['authenticated'] = False
 
-# Simple username and password check (Replace with your actual authentication logic)
-def authenticate_user(username, password):
-    return username == "admin" and password == "password"
+# Function to check credentials (replace with your actual validation)
+def authenticate(username, password):
+    return username == st.secrets['USERNAME'] and password == st.secrets['PASSWORD']
 
-# Login screen
-def show_login_screen():
-    st.title("Login to Access the App")
+# Login Screen
+if not st.session_state['authenticated']:
+    st.title("Login to Access the Application")
+
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-    
-    if st.button("Login") or st.session_state.get('enter_pressed', False):
-        if authenticate_user(username, password):
+
+    if st.button("Login") or st.session_state.get('press_enter', False):
+        if authenticate(username, password):
             st.session_state['authenticated'] = True
-            # Reset enter_pressed state if used
-            st.session_state['enter_pressed'] = False
+            st.experimental_rerun()
         else:
             st.error("Incorrect username or password.")
+            st.session_state['press_enter'] = False  # Reset it for subsequent attempts
+    
+    st.text_input("", placeholder="Press Enter to login", on_change=lambda: setattr(st.session_state, 'press_enter', True), key="dummy", help="Press Enter after typing your password")
 
-# Capture enter key press
-def on_enter():
-    st.session_state['enter_pressed'] = True
-
-# st.text_input("Dummy input to capture enter", on_change=on_enter, key="dummy")
-
-# Main app function
-def main_app():
+else:
     # Constants
     VALUATION_CAP_USD = 3_000_000
     FLOOR_VALUATION_USD = 2_000_000
@@ -260,7 +255,7 @@ def main_app():
 
     # st.markdown(f"<span style='font-size: 0.9em;'>Pre-money value of YOUR Investment: ₹{pre_money_value_of_investment:.2f}</span>", unsafe_allow_html=True)
 
-if st.session_state['authenticated']:
-    main_app()
-else:
-    show_login_screen()
+# if st.session_state['authenticated']:
+#     main_app()
+# else:
+#     show_login_screen()
