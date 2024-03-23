@@ -227,20 +227,19 @@ else:
 
     faqs = [
         {
-            "questions_answers": [
-                {
-                    "question": "By when are you planning to raise the Pre-Seed/Seed round?",
-                    "answer": "We are in active discussions with several Pre-Seed and Seed investors, receiving positive traction for our product. While no deal has been finalized yet, we are optimistic about securing a closure by August 2024 at the earliest."
-                },
-                {
-                    "question": "How is our price of share calculated?",
-                    "answer": "Your investment in us now is considered a CCD (Compulsory Convertible Debenture), featuring a 25% discount. To protect our investors' interests, we've set a valuation cap at $3M. This means, irrespective of a higher valuation, your shares will be converted as if the company is valued at $3M. Additionally, as early believers in our venture, you receive a 25% discount on the calculated share value. For instance, if the share value at a $3M valuation is ₹100, it will be offered to you for ₹75. This method ensures a fair calculation of share value. For a deeper understanding, feel free to reach out to us."
-                },
-                {
-                    "question": "When will we be given the equity in the company, and when do we have an option to liquidate our equity/exit?",
-                    "answer": "Equity will be allocated to you as soon as we raise our Pre-Seed or Seed Round, at a discounted rate according to our CCD terms. An opportunity to exit or liquidate your equity will arise following our next investment round, which will be Series A."
-                }
-            ]
+            "question": "By when are you planning to raise the Pre Seed/ Seed round",
+            "answer": "We have been actively talking and pitching to several Pre Seed and Seed Investors, and getting a good traction on our product. We haven't closed a deal yet, but we should be able to get a closure earliest by August 2024."
+        },
+        {
+            "question": "How is our price of share calculated.",
+            "answer": """You investment in us now would be counted as a CCD (Compulsory Convertible Debenture), in which we are offering a dicount of 25%. 
+            To keep the best interest of our invetors, we have kept a cap of $3M, which means that even if our company gets valued at more than $3M, you shares would be converted at $3M only.
+            Now the second layer of benefit is added by the discounting factor. Since you are believing in us in the earliest days of our venture, we offer another 25% discount on the share value that comes in. Say, your share value at $3M company value is calculated to be ₹100, we would offer it to you for ₹75! So that's how the Share value is calculated.
+            Feel free to contact any one of us to understand more in depth."""
+        },
+        {
+            "question": "When will we be given the equity in the company, and when do we have an option to liquidate our equity/ exit? ",
+            "answer": "You will get the equity as soon as we raise our Pre-Seed or Seed Round (on discounted rate as per our CCD terms). However, you would only be able to exit after our next round of Investments, which would be Serie A."
         }
     ]
 
