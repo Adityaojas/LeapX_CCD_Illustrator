@@ -101,7 +101,7 @@ else:
                 }
             </style>
             <div class="tooltip">ℹ️
-                <span class="tooltiptext">Valuation Cap for FnF round is set at $3M and the floor is set at $2M. For ease of calculation, we'll assume a total of 1,00,000 shares would be issued.</span>
+                <span class="tooltiptext">Valuation Cap for FnF round is set at $2.5M and the floor is set at $1.5M. For ease of calculation, we'll assume a total of 1,00,000 shares would be issued.</span>
             </div>
         """, unsafe_allow_html=True)
 
@@ -241,7 +241,7 @@ else:
         },
         {
             "question": "How is our price of share calculated?",
-            "answer": "Your investment in us in this early stage would be considered to be a CCD (Compulsory Convertible Debenture), featuring a 25% discount witha  valuation cap of $3M. This means, irrespective of a higher valuation, the share value for you would be decided at either the valuation-25% or $3m, whichever is lower. For example, lets assume LeapX gets valued at 5M$ (₹ 41.5 Cr), and assuming that we have a total of 100000 shares; the share value for a normal investor would be ₹41.5 Cr/100000 which is ₹4150. The same share value for you would be calculated at the valuation cap which is $3M (₹24.9 Cr), and you would be given shares at ₹24.9 Cr/100000, which is ₹2490. That means you get higher number of shares than what a regular investor would get. For a deeper understanding, feel free to reach out to us."
+            "answer": "Your investment in us in this early stage would be considered to be a CCD (Compulsory Convertible Debenture), featuring a 25% discount witha  valuation cap of $2.5M. This means, irrespective of a higher valuation, the share value for you would be decided at either the valuation-25% or $2.5m, whichever is lower. For example, lets assume LeapX gets valued at 5M$ (₹ 41.5 Cr), and assuming that we have a total of 100000 shares; the share value for a normal investor would be ₹41.5 Cr/100000 which is ₹4150. The same share value for you would be calculated at the valuation cap which is $2.5M (₹20.75 Cr), and you would be given shares at ₹20.75 Cr/100000, which is ₹2075. That means you get higher number of shares than what a regular investor would get. For a deeper understanding, feel free to reach out to us."
         },
         {
             "question": "When will we be given the equity in the company, and when do we have an option to liquidate our equity/exit?",
