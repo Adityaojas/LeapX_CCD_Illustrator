@@ -29,12 +29,14 @@ if not st.session_state['authenticated']:
 
 else:
     # Constants
-    VALUATION_CAP_USD = 3_000_000
-    FLOOR_VALUATION_USD = 2_000_000
-    TOTAL_SHARES_ISSUED = 100_000
-    PRICE_PER_SHARE_AT_CAP = 1868  # Rs
-    USD_TO_INR_RATE = 83  # Assume 1 USD = 8.3 INR for conversion
-    MILLION = 1_000_000
+    VALUATION_CAP_USD = 2500000
+    FLOOR_VALUATION_USD = 1500000
+    TOTAL_SHARES_ISSUED = 100000  # Rs
+    USD_TO_INR_RATE = 83  # Assume 1 USD = 83 INR for conversion
+    MILLION = 1000000
+
+    def calculate_price_per_share_based_on_valuation(valuation_usd, shares_issued):
+        return valuation_usd * USD_TO_INR_RATE / shares_issued  # Rs
 
     def calculate_pre_money_valuation_inr(valuation_usd_m):
         return valuation_usd_m * MILLION * USD_TO_INR_RATE / 10**7  # Crore
@@ -52,6 +54,12 @@ else:
         
         <div class="title">LeapX Investment Growth Illustration</div>
         """, unsafe_allow_html=True)
+    
+    def calculate_price_per_share_for_user(predicted_valuation_usd_m):
+        valuation_cap_usd = VALUATION_CAP_USD
+        seventy_five_percent_of_predicted = predicted_valuation_usd_m * MILLION * 0.75
+        lesser_valuation = min(valuation_cap_usd, seventy_five_percent_of_predicted)
+        return calculate_price_per_share_based_on_valuation(lesser_valuation, TOTAL_SHARES_ISSUED)
 
     col_0_1, col_0_2, col_0_3 = st.columns([2,0.1,2])
     with col_0_1:
@@ -97,29 +105,18 @@ else:
             </div>
         """, unsafe_allow_html=True)
 
-    # with col_0_3:
-    #     st.markdown("""
-    #         <style>
-    #             .small-grey {
-    #                 text-align: left;
-    #                 font-size: 0.8em;
-    #                 color: grey;
-    #             }
-    #         </style>
-    #         <p class="small-grey">Valuation Cap for FnF round is set at $3M and the floor is set at $2M. 
-    #         For ease of calculation, we'll assume a total of 1,00,000 shares would be issued.</p>
-    #         """, unsafe_allow_html=True)
-
-
 
     st.markdown('<hr style="margin: 0.5em 0;">', unsafe_allow_html=True)
     col_1_1, col_1_2 = st.columns(2)
 
     with col_1_1:
-        pre_money_valuation_usd_m = st.number_input("LeapX's Pre-Money Valuation (in $M)", min_value=5.0, value=5.0, step=0.5)
-
+        pre_money_valuation_usd_m = st.number_input("LeapX's Pre-Money Valuation (in $M)", min_value=2.5, value=5.0, step=0.5)
         pre_money_valuation_inr_cr = calculate_pre_money_valuation_inr(pre_money_valuation_usd_m)
         # st.write(f"Pre-Money Valuation in INR (Crore): ₹{pre_money_valuation_inr_cr:.2f} Cr")
+    
+    price_per_share_for_user = calculate_price_per_share_for_user(pre_money_valuation_usd_m)
+    num_shares_allocated = int(investment_amount / price_per_share_for_user)
+
 
     col_2_1, col_2_2, col_2_3 = st.columns([2,0.2,2])
     with(col_2_1):
@@ -129,9 +126,9 @@ else:
 
         st.markdown(f"<span style='font-size: 0.8em;'>Pre-money Price per Share for future Investor: ₹{pre_money_price_per_share:.2f}</span>", unsafe_allow_html=True)
 
-        st.markdown(f"<span style='font-size: 0.8em;'>Price per Share for YOU (basis valuation Cap): ₹{PRICE_PER_SHARE_AT_CAP}</span>", unsafe_allow_html=True)
+        st.markdown(f"<span style='font-size: 0.8em;'>Price per Share for YOU (basis valuation Cap): ₹{price_per_share_for_user}</span>", unsafe_allow_html=True)
 
-        num_shares_allocated = int(investment_amount / PRICE_PER_SHARE_AT_CAP)
+        num_shares_allocated = int(investment_amount / price_per_share_for_user)
         st.markdown(f"<span style='font-size: 0.8em;'>Num of shares allocated to you (apprx): {num_shares_allocated}</span>", unsafe_allow_html=True)
 
 
@@ -176,7 +173,19 @@ else:
         # Assuming 1 USD = 83 INR for conversion, adjust if the rate changes
         series_a_valuation_inr = series_a_valuation_m_usd * MILLION * USD_TO_INR_RATE
         new_share_value_at_series_a = series_a_valuation_inr / TOTAL_SHARES_ISSUED
-        
+
+        # Display the jump in share value
+        initial_share_value_used_for_allocation = price_per_share_for_user  # Assuming this is the price per share used for user's allocation
+
+        st.markdown(f"""
+            <div style="text-align: center; color: grey">
+                <span style='font-size: 0.8em;'>The value of each of your shares would jump from ₹{initial_share_value_used_for_allocation:.2f} to ₹{new_share_value_at_series_a:.2f} at this Series A valuation.
+            </div>
+            """, unsafe_allow_html=True)
+
+
+
+
         investment_value_at_series_a = num_shares_allocated * new_share_value_at_series_a
 
         if investment_amount > 0:  # Prevent division by zero
@@ -187,7 +196,7 @@ else:
         # Display the investment value at Series A and the percentage growth
         st.markdown(f"""
             <div style="text-align: center;">
-                <span style='font-size: 1.2em;'><b>Value of YOUR Investment at Series A:</b></span>
+                <span style='font-size: 1em;'><b>and the total value of your investment would jump to -</b></span>
                 <br>
                 <span style='font-size: 2.5em;'>₹{investment_value_at_series_a:.2f} <sup style='font-size: 0.5em; color: green;'>&#9650; {percentage_growth_series_a:.2f}%</sup></span>
             </div>
@@ -232,7 +241,7 @@ else:
         },
         {
             "question": "How is our price of share calculated?",
-            "answer": "Your investment in us now is considered a CCD (Compulsory Convertible Debenture), featuring a 25% discount. To protect our investors' interests, we've set a valuation cap at $3M. This means, irrespective of a higher valuation, your shares will be converted as if the company is valued at $3M. Additionally, as early believers in our venture, you receive a 25% discount on the calculated share value. For instance, if the share value at a $3M valuation is ₹100, it will be offered to you for ₹75. This method ensures a fair calculation of share value. For a deeper understanding, feel free to reach out to us."
+            "answer": "Your investment in us in this early stage would be considered to be a CCD (Compulsory Convertible Debenture), featuring a 25% discount witha  valuation cap of $3M. This means, irrespective of a higher valuation, the share value for you would be decided at either the valuation-25% or $3m, whichever is lower. For example, lets assume LeapX gets valued at 5M$ (₹ 41.5 Cr), and assuming that we have a total of 100000 shares; the share value for a normal investor would be ₹41.5 Cr/100000 which is ₹4150. The same share value for you would be calculated at the valuation cap which is $3M (₹24.9 Cr), and you would be given shares at ₹24.9 Cr/100000, which is ₹2490. That means you get higher number of shares than what a regular investor would get. For a deeper understanding, feel free to reach out to us."
         },
         {
             "question": "When will we be given the equity in the company, and when do we have an option to liquidate our equity/exit?",
